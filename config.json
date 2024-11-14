@@ -1,0 +1,9 @@
+{
+  "API_key": "PUT UR KEY HERE",
+  "source_file": "artykul.txt",
+  "out_file": "artykul.html",
+  "template_file": "szablon.html",
+  "preview_file": "podglad.html",
+  "model": "gpt-4-turbo",
+  "prompt": "Convert given text to HTML. Return body's content only (no body tag). Insert an img tag per every few paragraphs (depending on their length). Img should have src attribute set as 'image_placeholder.jpg' and alt attribute should contains a short descriptive sentence summarizing the paragraph's topic suitable for Generative AI to create a matching image. Each image should have short description below (use span with class image-description). Select important words and sentences and give them decoration. Make headings and subheadings. Crucial words should be bolded (tag strong), definitions should be italic (tag em) and underlined (tag ins).Summarizing sentences (0 or 1 per paragraph) should be highlighted with span and class highlighted. Wrap everything with article tag"
+}

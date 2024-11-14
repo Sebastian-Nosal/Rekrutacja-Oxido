@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Oxido</title>
+    <style>
+      body {
+        background-color: #F0F0F0;
+      }
+      p, span {
+        margin: 20px 0;
+        padding: 10px 0;
+      }
+      h1, h2, h3, h4 {
+        text-align: center;
+        font-family: Monospace;
+        display: block;
+      }
+      article {
+        font-size: 18px;
+        text-align: justify;
+        font-family: helvetica;
+        padding: 1rem;
+        background-color: white;
+        color: #1a202c;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      }
+      @media (min-width: 768px) {
+        article {
+          padding: 1.5rem;
+        }
+      }
+      @media (min-width: 1024px) {
+        article {
+          padding: 2rem;
+          max-width: 48rem;
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+      @media (min-width: 1280px) {
+        article {
+          padding: 2.5rem;
+          max-width: 1024px;
+        }
+        .scroll-nav {
+          position: fixed;
+          top: calc(50vh - 50px);
+          left: 20px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 100px;
+          background-color: #C0C0C0;
+          border-radius: 30px;
+          padding: 5px;
+          box-sizing: border-box;
+          z-index: 9999;
+        }
+        .scroll-nav button {
+          background-color: #007BFF;
+          border: none;
+          border-radius: 50%;
+          color: white;
+          font-size: 20px;
+          width: 40px;
+          height: 40px;
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .scroll-nav button:hover {
+          background-color: #0056b3;
+        }
+      }
+      .highlighted {
+        background-color: yellow;
+        letter-spacing: 1px;
+        padding: 2px 10px;
+        font-family: mono;
+        display: inline-block;
+      }
+      img {
+        display: block;
+        width: 100%;
+        min-height: 400px;
+        border: 2px solid black;
+      }
+      .image-description {
+        text-align: center;
+        width: 100%;
+        display: block;
+        font-family: cursive;
+        margin: 20px 0 0;
+      }
+      .fade-up {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: opacity 0.6s ease, transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+      }
+      .fade-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+    <script defer="defer">
+      document.addEventListener('DOMContentLoaded', function () {
+        const articleElements = document.querySelectorAll('article *');
+        const observer = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.3
+        });
+        articleElements.forEach(element => {
+          element.classList.add('fade-up');
+          observer.observe(element);
+        });
+      });
+    </script>
+    <script defer="defer">
+      document.addEventListener('DOMContentLoaded', function () {
+        const headings = Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, h6'));
+        const scrollNav = document.createElement('div');
+        scrollNav.classList.add('scroll-nav');
+        const prevButton = document.createElement('button');
+        prevButton.innerHTML = '&and;';
+        const nextButton = document.createElement('button');
+        nextButton.innerHTML = '&or;';
+        scrollNav.appendChild(prevButton);
+        scrollNav.appendChild(nextButton);
+        document.body.appendChild(scrollNav);
+        let currentIndex = 0;
+        const scrollToHeading = (index) => {
+          const heading = headings[index];
+          window.scrollTo({
+            top: heading.offsetTop - 100,
+            behavior: 'smooth'
+          });
+        };
+        prevButton.addEventListener('click', () => {
+          currentIndex = (currentIndex > 0) ? currentIndex - 1 : 0;
+          scrollToHeading(currentIndex);
+        });
+        nextButton.addEventListener('click', () => {
+          currentIndex = (currentIndex < headings.length - 1) ? currentIndex + 1 : headings.length - 1;
+          scrollToHeading(currentIndex);
+        });
+        const toggleNavigationVisibility = () => {
+          if (window.innerWidth > 1280) {
+            scrollNav.style.display = 'flex';
+          } else {
+            scrollNav.style.display = 'none';
+          }
+        };
+        toggleNavigationVisibility();
+        window.addEventListener('resize', toggleNavigationVisibility);
+        if (headings.length > 0) {
+          scrollToHeading(currentIndex);
+        }
+      });
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
